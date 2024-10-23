@@ -1,67 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { fetchToDos, addToDo, deleteToDo } from '../api';
-import { ToDo } from '../types';
+import React, { useState } from "react";
 
 interface ToDoFormProps {
-    targetId: number;
-    onUpdate: () => void;
+  onAddToDo: (title: string, description: string) => void;
 }
 
-const ToDoForm: React.FC<ToDoFormProps> = ({ targetId, onUpdate }) => {
-    const [toDos, setToDos] = useState<ToDo[]>([]);
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
+const ToDoForm: React.FC<ToDoFormProps> = ({ onAddToDo }) => {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
-    const fetchAndSetToDos = async () => {
-        const data = await fetchToDos(targetId);
-        setToDos(data);
-    };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onAddToDo(title, description);
+    setTitle("");
+    setDescription("");
+  };
 
-    useEffect(() => {
-        fetchAndSetToDos();
-    }, [targetId]);
-
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        await addToDo(targetId, title, description);
-        setTitle('');
-        setDescription('');
-        onUpdate();
-    };
-
-    return (
-        <div>
-            <h2>ToDos for Target ID: {targetId}</h2>
-            <form onSubmit={handleSubmit} className="todo-form">
-                <input
-                    type="text"
-                    placeholder="ToDo Title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="ToDo Description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    required
-                />
-                <button type="submit">Add ToDo</button>
-            </form>
-            <ul>
-                {toDos.map((todo) => (
-                    <li key={todo.id}>
-                        {todo.title} - {todo.description}
-                        <button onClick={async () => {
-                            await deleteToDo(todo.id);
-                            onUpdate();
-                        }}>Delete</button>
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Add ToDo</h2>
+      <input
+        type="text"
+        placeholder="Title"
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        required
+        minLength={3}
+      />
+      <input
+        type="text"
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        required
+        minLength={3}
+      />
+      <button type="submit">Add ToDo</button>
+    </form>
+  );
 };
 
 export default ToDoForm;

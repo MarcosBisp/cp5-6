@@ -1,37 +1,38 @@
 import React, { useState } from "react";
-import { addTarget } from "../api";
 
 interface TargetFormProps {
-  onUpdate: () => void;
+  onAddTarget: (title: string, description: string) => void;
 }
 
-const TargetForm: React.FC<TargetFormProps> = ({ onUpdate }) => {
+const TargetForm: React.FC<TargetFormProps> = ({ onAddTarget }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    await addTarget(title, description);
+    onAddTarget(title, description);
     setTitle("");
     setDescription("");
-    onUpdate();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="target-form">
+    <form onSubmit={handleSubmit}>
+      <h2>Add Target</h2>
       <input
         type="text"
-        placeholder="Target Title"
+        placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         required
+        minLength={3}
       />
       <input
         type="text"
-        placeholder="Target Description"
+        placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         required
+        minLength={3}
       />
       <button type="submit">Add Target</button>
     </form>

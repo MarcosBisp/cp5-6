@@ -1,8 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   margin: 0;
   padding: 20px;
+  font-family: 'Inter', sans-serif;
 }
 
 .app {
@@ -33,12 +36,50 @@ button {
   background-color: #5cb85c;
   color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 button:hover {
-  background-color: #4cae4c;
+  background-color: #339b33;
 }
 
-.target-list, .todo-form, .target-form {
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.target-list, .target-form, .todo-form {
   margin-top: 20px;
+}
+
+.todo-section {
+  margin-top: 30px;
+}
+
+.target-item, .todo-list ul li{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.target-item div{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.trash-btn{
+  background-color: #ff0000;
+}
+
+.trash-btn:hover{
+  background-color: #930d0d;
 }

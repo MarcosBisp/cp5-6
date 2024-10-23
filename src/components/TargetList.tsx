@@ -1,33 +1,33 @@
 import React from "react";
 import { Target } from "../types";
-import { deleteTarget } from "../api";
+import { FaArrowCircleDown, FaTrashAlt } from "react-icons/fa";
 
 interface TargetListProps {
   targets: Target[];
-  setSelectedTargetId: (id: number | null) => void;
+  onSelectTarget: (id: number) => void;
+  onDeleteTarget: (id: number) => void;
 }
 
 const TargetList: React.FC<TargetListProps> = ({
   targets,
-  setSelectedTargetId,
+  onSelectTarget,
+  onDeleteTarget,
 }) => {
   return (
     <div className="target-list">
       <h2>Targets</h2>
       <ul>
         {targets.map((target) => (
-          <li key={target.id}>
-            <span onClick={() => setSelectedTargetId(target.id)}>
-              {target.title}
-            </span>
-            <button
-              onClick={async () => {
-                await deleteTarget(target.id);
-                setSelectedTargetId(null);
-              }}
-            >
-              Delete
-            </button>
+          <li key={target.id} className="target-item">
+            <span>{target.title}</span>
+            <div>
+              <button onClick={() => onSelectTarget(target.id)}>
+                <FaArrowCircleDown size={18} />
+              </button>
+              <button onClick={() => onDeleteTarget(target.id)} className="trash-btn">
+                <FaTrashAlt size={18}/>
+              </button>
+            </div>
           </li>
         ))}
       </ul>
